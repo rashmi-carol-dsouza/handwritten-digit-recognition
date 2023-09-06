@@ -18,12 +18,21 @@ st.title("Handwritten Digit Classification")
 
 google_drive_url = "https://drive.google.com/file/d/16XFgFfhUS7hN5xgidqxHNwm3hKYIbt5k/view?usp=drive_link"
 
+# Function to download the model
 @st.cache(allow_output_mutation=True)
 def load_model_st(google_drive_url):
-    response = requests.get(google_drive_url)
+    # Ensure the directory exists before writing the file
     model_path = "models/base-model-2.h5"
+    model_dir = os.path.dirname(model_path)
+    if not os.path.exists(model_dir):
+        os.makedirs(model_dir)
+    
+    # Download the model from Google Drive
+    response = requests.get(google_drive_url)
     with open(model_path, "wb") as f:
         f.write(response.content)
+
+    # Load the model from the local file
     model = load_model(model_path)
     return model
 
