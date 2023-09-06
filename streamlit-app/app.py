@@ -14,7 +14,7 @@ st.title("Handwritten Digit Classification")
 
 @st.cache_resource()
 def load_model_st():
-  model = load_model("./base-model-2.h5")
+  model = load_model("streamlit-app/base-model-2.h5")
   return model
 with st.spinner('Model is being loaded..'):
   model=load_model_st()
