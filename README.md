@@ -62,4 +62,6 @@ If you want to contribute to this project or have any issues or feature requests
 
 [How to use Azure to deploy your WebApp Container](https://medium.com/mlearning-ai/how-to-use-azure-to-deploy-your-web-app-container-for-free-e11986bc3374)
 
+[How to deploy streamlit app using Streamlit Community Cloud](https://docs.streamlit.io/streamlit-community-cloud/deploy-your-app)
+
 Happy handwriting detection!
