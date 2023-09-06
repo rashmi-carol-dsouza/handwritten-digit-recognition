@@ -8,16 +8,34 @@ from numpy import argmax
 from tensorflow.keras.utils import load_img
 from tensorflow.keras.utils import img_to_array
 from PIL import Image, ImageOps
+import requests
+import os
 
 
 st.title("Handwritten Digit Classification")
 
-@st.cache_resource()
-def load_model_st():
-  model = load_model("models/base-model-2.h5")
-  return model
-with st.spinner('Model is being loaded..'):
-  model=load_model_st()
+# Define the URL where the model is hosted
+
+google_drive_url = "https://drive.google.com/file/d/16XFgFfhUS7hN5xgidqxHNwm3hKYIbt5k/view?usp=drive_link"
+
+@st.cache(allow_output_mutation=True)
+def load_model_st(google_drive_url):
+    response = requests.get(google_drive_url)
+    model_path = "models/base-model-2.h5"
+    with open(model_path, "wb") as f:
+        f.write(response.content)
+    model = load_model(model_path)
+    return model
+
+# Check if the model exists, and if not, download it
+if not os.path.exists("models/base-model-2.h5"):
+    st.info("Downloading the model file...")
+    with st.spinner('Model is being loaded..'):
+        model = load_model_st(google_drive_url)
+else:
+    with st.spinner('Model is being loaded..'):
+      model = load_model("models/base-model-2.h5")
+
 
 # load and prepare the image
 def load_image(file):
