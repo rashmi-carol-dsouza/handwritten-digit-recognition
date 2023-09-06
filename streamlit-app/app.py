@@ -8,37 +8,22 @@ from numpy import argmax
 from tensorflow.keras.utils import load_img
 from tensorflow.keras.utils import img_to_array
 from PIL import Image, ImageOps
-import requests
 import os
-
 
 st.title("Handwritten Digit Classification")
 
 # Define the URL where the model is hosted
 
-google_drive_url = "https://drive.google.com/file/d/16XFgFfhUS7hN5xgidqxHNwm3hKYIbt5k/view?usp=drive_link"
+google_drive_url = "https://drive.google.com/file/d/16XFgFfhUS7hN5xgidqxHNwm3hKYIbt5k/view?usp=sharing"
 
 # Function to download the model
-@st.cache(allow_output_mutation=True)
-def load_model_st(google_drive_url):
-    try:
-        # Ensure the directory exists before writing the file
-        model_path = "models/base-model-2.h5"
-        model_dir = os.path.dirname(model_path)
-        if not os.path.exists(model_dir):
-            os.makedirs(model_dir)
-        
-        # Download the model from Google Drive
-        response = requests.get(google_drive_url)
-        with open(model_path, "wb") as f:
-            f.write(response.content)
+@st.cache_resource()
+def load_model_st():
+  model = load_model("models/base-model-2.h5")
+  return model
+with st.spinner('Model is being loaded..'):
+  model=load_model_st()
 
-        # Load the model from the local file
-        model = load_model(model_path)
-        return model
-    except Exception as e:
-        st.error(f"An error occurred while loading the model: {str(e)}")
-        return None
 
 # Check if the model exists, and if not, download it
 if not os.path.exists("models/base-model-2.h5"):
