@@ -12,27 +12,12 @@ import os
 
 st.title("Handwritten Digit Classification")
 
-# Define the URL where the model is hosted
-
-google_drive_url = "https://drive.google.com/file/d/16XFgFfhUS7hN5xgidqxHNwm3hKYIbt5k/view?usp=sharing"
-
-# Function to download the model
 @st.cache_resource()
 def load_model_st():
-  model = load_model("models/base-model-2.h5")
+  model = load_model("base-model-2.h5")
   return model
 with st.spinner('Model is being loaded..'):
   model=load_model_st()
-
-
-# Check if the model exists, and if not, download it
-if not os.path.exists("models/base-model-2.h5"):
-    st.info("Downloading the model file...")
-    with st.spinner('Model is being loaded..'):
-        model = load_model_st(google_drive_url)
-else:
-    with st.spinner('Model is being loaded..'):
-      model = load_model("models/base-model-2.h5")
 
 
 # load and prepare the image
